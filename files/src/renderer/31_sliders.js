@@ -3,6 +3,7 @@
 // This makes an object storing "sliders" for every piece except K and k which are handled
 // differently. A slider is a list of vectors, which are distances from the origin.
 
+//need changing for shatranj
 function generate_movegen_sliders() {
 
 	let invert = n => n === 0 ? 0 : -n;							// Flip sign without introducing -0
