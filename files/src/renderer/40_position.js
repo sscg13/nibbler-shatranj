@@ -250,7 +250,7 @@ const position_prototype = {
 				return "illegal knight movement";
 			}
 		}
-
+		//maybe change this (bishop legality check)
 		if (["B", "b"].includes(this.state[x1][y1])) {
 			if (Math.abs(x2 - x1) !== Math.abs(y2 - y1)) {
 				return "illegal bishop movement";
@@ -262,7 +262,7 @@ const position_prototype = {
 				return "illegal rook movement";
 			}
 		}
-
+		//and maybe change this as well...
 		if (["Q", "q"].includes(this.state[x1][y1])) {
 			if (Math.abs(x2 - x1) !== Math.abs(y2 - y1)) {
 				if (Math.abs(x2 - x1) > 0 && Math.abs(y2 - y1) > 0) {
@@ -272,7 +272,7 @@ const position_prototype = {
 		}
 
 		// Pawns...
-
+		//maybe change this as well?
 		if (["P", "p"].includes(this.state[x1][y1])) {
 
 			if (Math.abs(x2 - x1) === 0) {
@@ -297,7 +297,7 @@ const position_prototype = {
 					return "pawn must move 1 forward when capturing";
 				}
 			}
-
+			//an
 			if (this.state[x1][y1] === "P") {
 				if (y1 !== 6) {
 					if (y2 - y1 !== -1) {
@@ -337,7 +337,7 @@ const position_prototype = {
 		}
 
 		// Check for blockers (pieces between source and dest).
-
+		//probably need to change this for shatranj
 		if (["K", "Q", "R", "B", "P", "k", "q", "r", "b", "p"].includes(this.state[x1][y1])) {
 			if (this.los(x1, y1, x2, y2) === false) {
 				return "movement blocked";
@@ -376,7 +376,8 @@ const position_prototype = {
 
 		return "";
 	},
-
+	//should I just delete all the castling/en passant?
+	//trying to make as few changes as possible
 	illegal_castling: function(x1, y1, x2, y2) {
 
 		// We can assume a king is on [x1, y1] and a same-colour rook is on [x2, y2]
@@ -587,7 +588,9 @@ const position_prototype = {
 
 		return false;
 	},
-
+	//definitely need to change this
+	//b, q are not ranged attackers anymore
+	//add something similar to how n is handled
 	line_attack: function(target, step_x, step_y, my_colour) {
 
 		// Is the target square under attack via the line specified by step_x and step_y (which are both -1, 0, or 1) ?
@@ -744,7 +747,7 @@ const position_prototype = {
 
 		return "";
 	},
-
+	//cutechess outputs pgns like normal chess, so shouldn't have to change this...
 	parse_pgn: function(s) {		// Returns a UCI move and an error message.
 
 		// Replace fruity dash characters with proper ASCII dash "-"
@@ -954,7 +957,9 @@ const position_prototype = {
 	same_colour: function(point1, point2) {
 		return this.colour(point1) === this.colour(point2);
 	},
-
+	//definitely change this...
+	//on second look, not much to change
+	//since we already changed the sliders
 	movegen: function(one_only = false) {
 
 		let moves = [];
@@ -972,7 +977,7 @@ const position_prototype = {
 				let piece = this.state[x][y];
 
 				if (piece !== "K" && piece !== "k") {		// We don't include kings because castling is troublesome.
-
+					//we changed sliders so shouldn't have to change this
 					for (let slider of movegen_sliders[piece]) {
 
 						// The sliders are lists where, if one move is blocked, every subsequent move in the slider is also
@@ -1070,7 +1075,7 @@ const position_prototype = {
 	no_moves: function() {
 		return this.movegen(true).length === 0;
 	},
-
+	//maybe remove this
 	c960_castling_converter: function(s) {
 
 		// Given some move s, convert it to the new Chess 960 castling format if needed.
@@ -1278,7 +1283,8 @@ const position_prototype = {
 			return s + ` ${this.active} ${castling_string} ${ep_string} ${this.halfmove} ${this.fullmove}`;
 		}
 	},
-
+	//uh yeah let's change this
+	//gah we need to add bare king somewhere
 	insufficient_material: function() {
 
 		// There are some subtleties around help-mates and also positions where
