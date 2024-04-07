@@ -362,6 +362,8 @@ const node_prototype = {
 			} else {
 				this.table.set_terminal_info("Stalemate", board.active === "w" ? 0 : 1);
 			}
+		} else if (board.bare_king()) {
+			this.table.set_terminal_info("Bare King", board.active === "w" ? 1 : 0);
 		} else if (board.insufficient_material()) {
 			this.table.set_terminal_info("Insufficient Material", 0.5);
 		} else if (board.halfmove >= 140) {
