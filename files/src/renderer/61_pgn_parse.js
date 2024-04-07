@@ -83,7 +83,7 @@ function LoadPGNRecord(o) {				// This can throw!
 		}
 	} else {
 		//let's fix the startpos
-		startpos = LoadFEN("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w KQkq - 0 1");
+		startpos = LoadFEN("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1");
 	}
 
 	let root = NewRoot(startpos);
