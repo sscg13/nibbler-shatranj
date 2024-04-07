@@ -27,7 +27,8 @@ if (load_err1) {
 	hub.save_config();				// Ensure the options object is deleted from the file.
 }
 
-fenbox.value = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+//change this, just in case
+fenbox.value = "rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1";
 
 // We have 3 main things that get drawn to:
 //
