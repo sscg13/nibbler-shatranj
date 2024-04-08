@@ -1283,7 +1283,38 @@ const position_prototype = {
 			return s + ` ${this.active} ${castling_string} ${ep_string} ${this.halfmove} ${this.fullmove}`;
 		}
 	},
-	//uh yeah let's change this
+	//ok bare king is here and scuffed
+	bare_king: function() {
+		let white_piececount = 0;
+		let black_piececount = 0;
+		for (let x = 0; x < 8; x++) {
+			for (let y = 0; y < 8; y++) {
+				switch (this.state[x][y]) {
+				case "Q":
+				case "R":
+				case "P":
+				case "B":
+				case "N":
+				case "K":
+					white_piececount++;
+				case "q":
+				case "r":
+				case "p":
+				case "b":
+				case "n":
+				case "k":
+					black_piececount++;
+				}
+			}
+		}
+		if (this.active === "w" && black_piececount === 1) {
+			return true;
+		}
+		if (this.active === "b" && white_piececount === 1) {
+			return true;
+		}
+		return false;
+	}
 	//gah we need to add bare king somewhere
 	insufficient_material: function() {
 
@@ -1291,7 +1322,7 @@ const position_prototype = {
 		// mate is forced despite there not being enough material if the pieces
 		// were elsewhere. This code below should have no false positives...
 
-		let minors = 0;
+		//simple, only insufficient if both sides have king only
 
 		for (let x = 0; x < 8; x++) {
 			for (let y = 0; y < 8; y++) {
@@ -1302,15 +1333,11 @@ const position_prototype = {
 				case "r":
 				case "P":
 				case "p":
-					return false;
 				case "B":
 				case "b":
 				case "N":
 				case "n":
-					minors++;
-					if (minors >= 2) {
-						return false;
-					}
+					return false;
 				}
 			}
 		}
