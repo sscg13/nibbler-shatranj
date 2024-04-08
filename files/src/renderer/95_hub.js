@@ -1598,7 +1598,7 @@ let hub_props = {
 	// ---------------------------------------------------------------------------------------------------------------------
 
 	new_game: function() {
-		this.load_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		this.load_fen("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1");
 	},
 
 	new_960: function(n) {
