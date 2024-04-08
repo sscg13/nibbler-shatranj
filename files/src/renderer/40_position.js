@@ -252,7 +252,7 @@ const position_prototype = {
 		}
 		//maybe change this (bishop legality check)
 		if (["B", "b"].includes(this.state[x1][y1])) {
-			if (Math.abs(x2 - x1) !== 1 || Math.abs(y2 - y1) !== 1) {
+			if (Math.abs(x2 - x1) !== 2 || Math.abs(y2 - y1) !== 2) {
 				return "illegal bishop movement";
 			}
 		}
