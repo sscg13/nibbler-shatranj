@@ -1322,7 +1322,7 @@ const position_prototype = {
 			return true;
 		}
 		return false;
-	}
+	},
 	//gah we need to add bare king somewhere
 	insufficient_material: function() {
 
