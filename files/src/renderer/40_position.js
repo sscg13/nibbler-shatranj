@@ -623,7 +623,7 @@ const position_prototype = {
 		let y = target.y;
 
 		let ranged_attackers = ["R", "r"];	// Ranged attackers that can go in a cardinal direction.
-		if (step_x !== 0 && step_y !=== 0) {
+		if (step_x !== 0 && step_y !== 0) {
 			ranged_attackers = [];
 		}
 		let iteration = 0;
