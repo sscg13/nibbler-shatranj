@@ -252,7 +252,7 @@ const position_prototype = {
 		}
 		//maybe change this (bishop legality check)
 		if (["B", "b"].includes(this.state[x1][y1])) {
-			if (Math.abs(x2 - x1) !== Math.abs(y2 - y1)) {
+			if (Math.abs(x2 - x1) !== 1 || Math.abs(y2 - y1) !== 1) {
 				return "illegal bishop movement";
 			}
 		}
@@ -264,10 +264,8 @@ const position_prototype = {
 		}
 		//and maybe change this as well...
 		if (["Q", "q"].includes(this.state[x1][y1])) {
-			if (Math.abs(x2 - x1) !== Math.abs(y2 - y1)) {
-				if (Math.abs(x2 - x1) > 0 && Math.abs(y2 - y1) > 0) {
-					return "illegal queen movement";
-				}
+			if (Math.abs(x2 - x1) !== 1 || Math.abs(y2 - y1) !== 1) {
+				return "illegal queen movement";
 			}
 		}
 
@@ -299,26 +297,14 @@ const position_prototype = {
 			}
 			//an
 			if (this.state[x1][y1] === "P") {
-				if (y1 !== 6) {
-					if (y2 - y1 !== -1) {
-						return "pawn must move forwards 1";
-					}
-				} else {
-					if (y2 - y1 !== -1 && y2 - y1 !== -2) {
-						return "pawn must move forwards 1 or 2";
-					}
+				if (y2 - y1 !== -1) {
+					return "pawn must move forwards 1";
 				}
 			}
 
 			if (this.state[x1][y1] === "p") {
-				if (y1 !== 1) {
-					if (y2 - y1 !== 1) {
-						return "pawn must move forwards 1";
-					}
-				} else {
-					if (y2 - y1 !== 1 && y2 - y1 !== 2) {
-						return "pawn must move forwards 1 or 2";
-					}
+				if (y2 - y1 !== 1) {
+					return "pawn must move forwards 1";
 				}
 			}
 		}
@@ -337,8 +323,8 @@ const position_prototype = {
 		}
 
 		// Check for blockers (pieces between source and dest).
-		//probably need to change this for shatranj
-		if (["K", "Q", "R", "B", "P", "k", "q", "r", "b", "p"].includes(this.state[x1][y1])) {
+		
+		if (["K", "R", "P", "k", "r", "p"].includes(this.state[x1][y1])) {
 			if (this.los(x1, y1, x2, y2) === false) {
 				return "movement blocked";
 			}
@@ -570,6 +556,32 @@ const position_prototype = {
 				}
 			}
 		}
+		// Ferzes...
+		for (let d of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) {
+
+			let x = target.x + d[0];
+			let y = target.y + d[1];
+
+			if (x < 0 || x > 7 || y < 0 || y > 7) continue;
+
+			if (["Q", "q"].includes(this.state[x][y])) {
+				if (this.colour(Point(x, y)) === my_colour) continue;
+				return true;
+			}
+		}
+		// Alfils...
+		for (let d of [[-2, -2], [-2, 2], [2, -2], [2, 2]]) {
+
+			let x = target.x + d[0];
+			let y = target.y + d[1];
+
+			if (x < 0 || x > 7 || y < 0 || y > 7) continue;
+
+			if (["B", "b"].includes(this.state[x][y])) {
+				if (this.colour(Point(x, y)) === my_colour) continue;
+				return true;
+			}
+		}
 
 		// Knights...
 
@@ -610,11 +622,10 @@ const position_prototype = {
 		let x = target.x;
 		let y = target.y;
 
-		let ranged_attackers = ["Q", "q", "R", "r"];	// Ranged attackers that can go in a cardinal direction.
-		if (step_x !== 0 && step_y !== 0) {
-			ranged_attackers = ["Q", "q", "B", "b"];	// Ranged attackers that can go in a diagonal direction.
+		let ranged_attackers = ["R", "r"];	// Ranged attackers that can go in a cardinal direction.
+		if (step_x !== 0 && step_y !=== 0) {
+			ranged_attackers = [];
 		}
-
 		let iteration = 0;
 
 		while (true) {
@@ -1008,9 +1019,6 @@ const position_prototype = {
 									if (one_only) {
 										return moves;
 									}
-									moves.push(move + "r");
-									moves.push(move + "b");
-									moves.push(move + "n");
 								}
 							} else {
 								if (this.illegal(move) === "") {
