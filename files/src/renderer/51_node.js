@@ -37,7 +37,7 @@ function NewNode(parent, move, board_for_root) {		// move must be legal; board i
 function NewRoot(board) {					// Arg is a board (position) object, not a FEN
 
 	if (!board) {
-		board = LoadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		board = LoadFEN("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1");
 	}
 
 	let root = NewNode(null, null, board);
