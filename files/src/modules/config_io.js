@@ -130,6 +130,7 @@ exports.defaults = {
 	"allow_stopped_analysis": false,
 	"never_suppress_searchmoves": true,
 	"never_grayout_infolines": false,
+	"suppress_ucinewgame": false,
 
 	"show_engine_state": false,
 
@@ -233,6 +234,10 @@ function fix(cfg) {
 	if (cfg.wdl_white_pov) {
 		cfg.wdl_pov = "w";
 	}
+
+	// Too many people are setting this...
+
+	cfg.show_engine_state = exports.defaults.show_engine_state;
 }
 
 exports.load = () => {
