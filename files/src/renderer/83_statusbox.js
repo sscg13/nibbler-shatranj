@@ -92,7 +92,11 @@ function NewStatusHandler() {
 			} else if (config.behaviour === "back_analysis") {
 				status_string += `<span class="green">Back-eval! </span>`;
 			} else if (config.behaviour === "analysis_free") {
-				status_string += `<span id="haltbutton_clicker" class="green">ANALYSIS (halt?) </span>`;
+				if (hub.engine.sent_options.contempt !== undefined && hub.engine.sent_options.contempt !== "0") {
+					status_string += `<span id="haltbutton_clicker" class="green">Contempt active! </span>`;
+				} else {
+					status_string += `<span id="haltbutton_clicker" class="green">ANALYSIS (halt?) </span>`;
+				}
 			}
 
 			if (config.book_explorer) {
@@ -109,7 +113,7 @@ function NewStatusHandler() {
 
 				status_string += `<span class="gray">${NString(node.table.nodes)} ${node.table.nodes === 1 ? "node" : "nodes"}`;
 				status_string += `, ${DurationString(node.table.time)} (N/s: ${NString(node.table.nps)})`;
-				if (engineconfig[engine.filepath].options["SyzygyPath"]) {
+				if (engineconfig[engine.filepath].options["SyzygyPath"] || node.table.tbhits > 0) {
 					status_string += `, ${NString(node.table.tbhits)} ${node.table.tbhits === 1 ? "tbhit" : "tbhits"}`;
 				}
 				status_string += `</span>`;

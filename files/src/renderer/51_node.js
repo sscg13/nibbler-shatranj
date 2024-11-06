@@ -37,7 +37,7 @@ function NewNode(parent, move, board_for_root) {		// move must be legal; board i
 function NewRoot(board) {					// Arg is a board (position) object, not a FEN
 
 	if (!board) {
-		board = LoadFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		board = LoadFEN("rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1");
 	}
 
 	let root = NewNode(null, null, board);
@@ -360,12 +360,14 @@ const node_prototype = {
 			if (board.king_in_check()) {
 				this.table.set_terminal_info("Checkmate", board.active === "w" ? 0 : 1);	// The PGN writer checks for this exact string! (Lame...)
 			} else {
-				this.table.set_terminal_info("Stalemate", 0.5);
+				this.table.set_terminal_info("Stalemate", board.active === "w" ? 0 : 1);
 			}
 		} else if (board.insufficient_material()) {
 			this.table.set_terminal_info("Insufficient Material", 0.5);
-		} else if (board.halfmove >= 100) {
-			this.table.set_terminal_info("50 Move Rule", 0.5);
+		} else if (board.bare_king()) {
+			this.table.set_terminal_info("Bare King", board.active === "w" ? 1 : 0);
+		} else if (board.halfmove >= 140) {
+			this.table.set_terminal_info("70 Move Rule", 0.5);
 		} else if (this.is_triple_rep()) {
 			this.table.set_terminal_info("Triple Repetition", 0.5);
 		} else {

@@ -137,6 +137,7 @@ function make_pgn_string(node) {
 
 	if (terminal_reason === "") {
 		// Pass - leave it unchanged since we know nothing
+		// There are more decisive results than checkmate, need to change this
 	} else if (terminal_reason === "Checkmate") {
 		root.tags.Result = main_line_end.board.active === "w" ? "0-1" : "1-0";
 	} else {
@@ -153,8 +154,8 @@ function make_pgn_string(node) {
 			tags.push(`[${t} "${val}"]`);
 		}
 	}
-
-	if (start_fen !== "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
+	//let's edit the startpos fen while we're at it
+	if (start_fen !== "rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1") {
 		if (root.board.normalchess === false) {
 			tags.push(`[Variant "Chess960"]`);
 		}

@@ -44,6 +44,6 @@ for key, value in zips.items():
 
 	# rename executable
 	if os.path.exists(os.path.join(build_dir, "electron.exe")):
-		os.rename(os.path.join(build_dir, "electron.exe"), os.path.join(build_dir, "nibbler.exe"))
+		os.rename(os.path.join(build_dir, "electron.exe"), os.path.join(build_dir, "nibbler-shatranj.exe"))
 	if os.path.exists(os.path.join(build_dir, "electron")):
-		os.rename(os.path.join(build_dir, "electron"), os.path.join(build_dir, "nibbler"))
+		os.rename(os.path.join(build_dir, "electron"), os.path.join(build_dir, "nibbler-shatranj"))
