@@ -814,7 +814,7 @@ let hub_props = {
 		if (!this.book) {
 			this.explorer_objects_cache = null;
 			this.explorer_cache_node_id = null;
-			this.info_handler.draw_explorer_arrows(this.tree.node, []);		// Needs to happen, to update the one_click_moves.
+			this.info_handler.draw_explorer_arrows(this.tree.node, [], null);		// Needs to happen, to update the one_click_moves.
 			return;
 		}
 
@@ -842,7 +842,8 @@ let hub_props = {
 			this.explorer_objects_cache.sort((a, b) => b.weight - a.weight);
 		}
 
-		this.info_handler.draw_explorer_arrows(this.tree.node, this.explorer_objects_cache);
+		let arrow_spotlight_square = config.click_spotlight ? this.active_square : null;
+		this.info_handler.draw_explorer_arrows(this.tree.node, this.explorer_objects_cache, arrow_spotlight_square);
 	},
 
 	draw_lichess_arrows: function() {
@@ -864,7 +865,7 @@ let hub_props = {
 		if (!ok) {
 			this.explorer_objects_cache = null;
 			this.explorer_cache_node_id = null;
-			this.info_handler.draw_explorer_arrows(this.tree.node, []);		// Needs to happen, to update the one_click_moves.
+			this.info_handler.draw_explorer_arrows(this.tree.node, [], null);		// Needs to happen, to update the one_click_moves.
 			return;
 		}
 
@@ -889,7 +890,8 @@ let hub_props = {
 			this.explorer_objects_cache.sort((a, b) => b.weight - a.weight);
 		}
 
-		this.info_handler.draw_explorer_arrows(this.tree.node, this.explorer_objects_cache);
+		let arrow_spotlight_square = config.click_spotlight ? this.active_square : null;
+		this.info_handler.draw_explorer_arrows(this.tree.node, this.explorer_objects_cache, arrow_spotlight_square);
 	},
 
 	draw_statusbox: function() {
@@ -2136,8 +2138,8 @@ let hub_props = {
 
 		// Is it a file?
 
-		if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0] && event.dataTransfer.files[0].path) {
-			this.open(event.dataTransfer.files[0].path);
+		if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0] && get_path_for_file(event.dataTransfer.files[0])) {
+			this.open(get_path_for_file(event.dataTransfer.files[0]));
 			return;
 		}
 
@@ -2399,6 +2401,11 @@ let hub_props = {
 		Log("Stopping log.");						// This will do nothing, but calling Log() forces it to close any open file.
 		config.logfile = filename;
 		this.send_ack_logfile();
+	},
+
+	set_language: function(s) {
+		config.language = s;
+		alert(translate.t("RESTART_REQUIRED", s));
 	},
 
 	send_ack_logfile: function() {
