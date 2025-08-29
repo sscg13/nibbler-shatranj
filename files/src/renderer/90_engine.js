@@ -171,7 +171,7 @@ function NewEngine(hub) {
 		let root_fen = node.get_root().board.fen(!this.in_960_mode());
 		let setup = `fen ${root_fen}`;
 
-		if (!this.in_960_mode() && setup === "fen rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1") {
+		if (!this.in_960_mode() && setup === "fen rnbkqbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBKQBNR w - - 0 1") {
 			setup = "startpos";		// May as well send this format if we're not in 960 mode.
 		}
 
