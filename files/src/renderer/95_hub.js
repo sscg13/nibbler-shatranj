@@ -1486,18 +1486,11 @@ let hub_props = {
 
 		s = board.c960_castling_converter(s);
 
-		// If a promotion character is required and not present, show the promotion chooser and return
-		// without committing to anything.
+		// If a promotion character is required and not present, fill it in
 
 		if (s.length === 4) {
 			if ((board.piece(source) === "P" && source.y === 1) || (board.piece(source) === "p" && source.y === 6)) {
-				let illegal_reason = board.illegal(s + "q");
-				if (illegal_reason) {
-					console.log(`hub.move(${s}) - ${illegal_reason}`);
-				} else {
-					this.show_promotiontable(s);
-				}
-				return false;
+				s = s + "q"; // promotion to queen/ferz is forced, do not display promotion options
 			}
 		}
 

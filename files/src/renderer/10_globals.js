@@ -103,7 +103,9 @@ const standard_lc0_options = {		// These are only sent if known by the engine.
 	"WDLEvalObjectivity": 0,
 };
 
-const forced_ab_options = {};
+const forced_ab_options = {
+	"UCI_Variant": "shatranj", //for multi-variant engines like Fairy Stockfish
+};
 
 const standard_ab_options = {
 	"Contempt": 0,

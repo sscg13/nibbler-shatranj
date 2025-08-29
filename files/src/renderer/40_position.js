@@ -341,7 +341,7 @@ const position_prototype = {
 
 			let promotion = s[4];
 
-			if (promotion !== "q" && promotion !== "r" && promotion !== "b" && promotion !== "n") {
+			if (promotion !== "q") {
 				return "move requires a valid promotion piece";
 			}
 
@@ -1291,37 +1291,83 @@ const position_prototype = {
 			return s + ` ${this.active} ${castling_string} ${ep_string} ${this.halfmove} ${this.fullmove}`;
 		}
 	},
-	//ok bare king is here and scuffed
+	//updated bare king impl should handle all legal cases correctly
 	bare_king: function() {
 		let white_piececount = 0;
 		let black_piececount = 0;
+		let white_king_x = 0;
+		let white_king_y = 0;
+		let black_king_x = 0;
+		let black_king_y = 0;
+		let non_king_x = 0;
+		let non_king_y = 0;
 		for (let x = 0; x < 8; x++) {
 			for (let y = 0; y < 8; y++) {
 				switch (this.state[x][y]) {
+				case "K":
+					white_piececount++;
+					white_king_x = x;
+					white_king_y = y;
+					break;
 				case "Q":
 				case "R":
 				case "P":
 				case "B":
 				case "N":
-				case "K":
 					white_piececount++;
+					non_king_x = x;
+					non_king_y = y;
+					break;
+				case "k":
+					black_piececount++;
+					black_king_x = x;
+					black_king_y = y;
+					break;
 				case "q":
 				case "r":
 				case "p":
 				case "b":
 				case "n":
-				case "k":
 					black_piececount++;
+					non_king_x = x;
+					non_king_y = y;
+					break;
 				}
 			}
 		}
+		if (white_piececount === 1 && black_piececount > 2) {
+			return [true, 0];
+		}
+		if (black_piececount === 1 && white_piececount > 2) {
+			return [true, 1];
+		}
 		if (this.active === "w" && black_piececount === 1) {
-			return true;
+			return [true, 1];
 		}
 		if (this.active === "b" && white_piececount === 1) {
-			return true;
+			return [true, 0];
 		}
-		return false;
+		if (this.active === "w" && white_piececount === 1) {
+			if (Math.abs(white_king_x - non_king_x) > 1 || Math.abs(white_king_y - non_king_y) > 1) {
+				return [true, 0];
+			}
+			else {
+				if (Math.abs(black_king_x - non_king_x) < 2 || Math.abs(black_king_y - non_king_y) < 2) {
+					return [true, 0];
+				}
+			}
+		}
+		if (this.active === "b" && black_piececount === 1) {
+			if (Math.abs(black_king_x - non_king_x) > 1 || Math.abs(black_king_y - non_king_y) > 1) {
+				return [true, 1];
+			}
+			else {
+				if (Math.abs(white_king_x - non_king_x) < 2 && Math.abs(white_king_y - non_king_y) < 2) {
+					return [true, 1];
+				}
+			}
+		}
+		return [false, 0];
 	},
 	//gah we need to add bare king somewhere
 	insufficient_material: function() {
